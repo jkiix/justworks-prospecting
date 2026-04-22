@@ -11,12 +11,6 @@ from .amplemarket import (
     search_news_signal,
 )
 from .scorer import generate_why_now, score_intent_signals
-from .sheets import (
-    append_intent_leads,
-    ensure_intent_leads_header,
-    get_client,
-    read_intent_config,
-)
 
 log = logging.getLogger(__name__)
 
@@ -29,18 +23,18 @@ _SIGNAL_FNS = {
 
 
 def run_intent_pipeline(
-    google_credentials_path: str,
     amplemarket_api_key: str,
     anthropic_api_key: str,
     dry_run: bool = False,
     limit: int = 50,
     output_file: str = "prospects.md",
     html_file: str = "index.html",
+    config_file: str = "intent_config.json",
 ) -> list[dict]:
-    # 1. Read Intent Config
-    gs_client = get_client(google_credentials_path)
-    intent_configs = read_intent_config(gs_client)
-    enabled = [c for c in intent_configs if c["enabled"]]
+    # 1. Read Intent Config from local JSON
+    with open(config_file) as f:
+        intent_configs = json.load(f)
+    enabled = [c for c in intent_configs if c.get("enabled")]
     print(f"Loaded {len(intent_configs)} intent config(s), {len(enabled)} enabled")
 
     # 2. Run signal searches (max 3 concurrent)
@@ -143,22 +137,15 @@ def run_intent_pipeline(
         item["why_now"] = why_now_map.get(item["domain"], "")
 
     # 7. Write markdown + HTML dashboard
-    _write_markdown(scored, output_file)
-    print(f"Wrote {output_file}")
-    _write_html(scored, html_file)
-    print(f"Wrote {html_file}")
-
-    # 8. Write Tier 1+2 to Sheets
-    tier_1_2 = [s for s in scored if s["score"] >= 50]
     if dry_run:
-        print(f"\n--- DRY RUN: would write {len(tier_1_2)} Tier 1/2 companies to Intent Leads ---")
+        print(f"\n--- DRY RUN: top results ---")
         for s in scored[:10]:
             print(f"  [{s['tier']}] {s['company'].get('name', s['domain'])} | Score: {s['score']} | {s['why_now']}")
     else:
-        ensure_intent_leads_header(gs_client)
-        rows = _to_sheet_rows(tier_1_2)
-        written = append_intent_leads(gs_client, rows)
-        print(f"Wrote {written} leads to 'Intent Leads' tab")
+        _write_markdown(scored, output_file)
+        print(f"Wrote {output_file}")
+        _write_html(scored, html_file)
+        print(f"Wrote {html_file}")
 
     return scored
 
@@ -311,26 +298,3 @@ function card(p,cls){{
         f.write(html)
 
 
-def _to_sheet_rows(scored: list[dict]) -> list[list]:
-    now = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S")
-    rows = []
-    for item in scored:
-        co = item["company"]
-        contact = item["contact"] or {}
-        rows.append([
-            now,
-            contact.get("first_name", ""),
-            contact.get("last_name", ""),
-            contact.get("title", ""),
-            co.get("name", item["domain"]),
-            co.get("industry", ""),
-            str(co.get("estimated_number_of_employees", "")),
-            contact.get("email", ""),
-            contact.get("linkedin_url", ""),
-            str(item["score"]),
-            " | ".join(item["reasons"]),
-            "New",
-            "|".join(sorted(item["signals"])),
-            item["why_now"],
-        ])
-    return rows

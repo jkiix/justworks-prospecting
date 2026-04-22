@@ -1,0 +1,6 @@
+[
+  {"signal": "hiring",  "enabled": true,  "location": "United States", "size_min": 1, "size_max": 1500},
+  {"signal": "funding", "enabled": true,  "location": "United States", "size_min": 1, "size_max": 1500, "days_funding": 6},
+  {"signal": "growth",  "enabled": true,  "location": "United States", "size_min": 1, "size_max": 1500, "growth_pct": 15},
+  {"signal": "news",    "enabled": false, "location": "United States", "size_min": 1, "size_max": 1500}
+]

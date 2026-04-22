@@ -32,7 +32,7 @@ def main():
         missing.append("ANTHROPIC_API_KEY")
     if not amplemarket_api_key:
         missing.append("AMPLEMARKET_API_KEY")
-    if not google_credentials_path:
+    if args.mode == "prospect" and not google_credentials_path:
         missing.append("GOOGLE_CREDENTIALS_PATH")
 
     if missing:
@@ -42,7 +42,6 @@ def main():
 
     if args.mode == "intent":
         results = run_intent_pipeline(
-            google_credentials_path=google_credentials_path,
             amplemarket_api_key=amplemarket_api_key,
             anthropic_api_key=anthropic_api_key,
             dry_run=args.dry_run,
