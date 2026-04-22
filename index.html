@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Justworks Prospect Dashboard</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f1f5f9;color:#1e293b}
+header{background:#1e293b;color:#fff;padding:20px 32px;display:flex;justify-content:space-between;align-items:center}
+header h1{font-size:1.1rem;font-weight:700;letter-spacing:-.01em}
+.meta{font-size:.8rem;opacity:.6}
+main{max-width:1200px;margin:0 auto;padding:28px 32px}
+.tier-section{margin-bottom:36px}
+.tier-header{font-size:1rem;font-weight:700;margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.count{color:#94a3b8;font-weight:400;font-size:.85rem}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:14px}
+.card{background:#fff;border-radius:10px;padding:18px;box-shadow:0 1px 3px rgba(0,0,0,.07);border-left:4px solid var(--c)}
+.t1{--c:#ef4444}.t2{--c:#f59e0b}.t3{--c:#3b82f6}
+.card-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px}
+.co-name{font-weight:700;font-size:.95rem;line-height:1.3}
+.co-sub{font-size:.75rem;color:#64748b;margin-top:2px}
+.badge{background:var(--c);color:#fff;padding:3px 9px;border-radius:20px;font-size:.78rem;font-weight:700;white-space:nowrap;margin-left:10px}
+.signals{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:10px}
+.sig{background:#f1f5f9;padding:2px 8px;border-radius:5px;font-size:.75rem}
+.why{font-size:.83rem;color:#475569;line-height:1.5;margin-bottom:10px}
+.contact{font-size:.78rem;color:#64748b;border-top:1px solid #f1f5f9;padding-top:9px}
+.contact b{color:#1e293b}
+.empty{color:#94a3b8;font-style:italic;font-size:.85rem}
+</style>
+</head>
+<body>
+<header>
+  <h1>Justworks Prospect Dashboard</h1>
+  <div class="meta" id="meta"></div>
+</header>
+<main id="main"></main>
+<script>
+const D={"generated": "2026-04-22 21:00 UTC", "prospects": [{"domain": "reducto.ai", "tier": "Tier 2", "score": 75, "reasons": ["🎯 Actively hiring HR/People roles", "📈 Headcount growing", "✅ ICP size match"], "why_now": "With active hiring and rapid team growth, Reducto.ai needs a scalable HR and payroll infrastructure now to avoid compliance gaps and administrative chaos as headcount climbs.", "company": {"name": "Reducto", "industry": "Software Development", "estimated_number_of_employees": 57}, "contact": {"first_name": "Adit", "last_name": "Abraham", "title": "Co-Founder & CEO", "email": ""}}, {"domain": "vcluster.com", "tier": "Tier 2", "score": 75, "reasons": ["🎯 Actively hiring HR/People roles", "📈 Headcount growing", "✅ ICP size match"], "why_now": "As vCluster scales its team, this is the ideal moment to implement a unified HR and benefits platform before manual processes become a bottleneck to growth.", "company": {"name": "vCluster", "industry": "Software Development", "estimated_number_of_employees": 95}, "contact": {"first_name": "Saiyam", "last_name": "Pathak", "title": "Head of Developer Relations", "email": ""}}, {"domain": "resolve.ai", "tier": "Tier 2", "score": 65, "reasons": ["💰 Recently funded", "📈 Headcount growing", "✅ ICP size match"], "why_now": "Fresh funding and accelerating growth mean Resolve.ai is likely onboarding new employees quickly, making now the perfect time to standardize payroll, benefits, and compliance before complexity multiplies.", "company": {"name": "Resolve AI", "industry": "Software Development", "estimated_number_of_employees": 150}, "contact": {"first_name": "Spiros", "last_name": "Xanthos", "title": "Founder & CEO", "email": ""}}, {"domain": "sweet.security", "tier": "Tier 2", "score": 65, "reasons": ["💰 Recently funded", "📈 Headcount growing", "✅ ICP size match"], "why_now": "With new funding fueling expansion, Sweet Security is at the inflection point where investing in a PEO prevents the HR and compliance debt that derails fast-growing startups.", "company": {"name": "Sweet Security", "industry": "Computer & Network Security", "estimated_number_of_employees": 116}, "contact": {"first_name": "Dror", "last_name": "Kashti", "title": "Co-Founder & CEO", "email": ""}}, {"domain": "harvey.ai", "tier": "Tier 2", "score": 60, "reasons": ["🎯 Actively hiring HR/People roles", "📈 Headcount growing"], "why_now": "Harvey.ai's high-profile hiring surge demands enterprise-grade benefits and airtight compliance to attract top legal-tech talent and stay ahead of employment risk.", "company": {"name": "Harvey", "industry": "Software Development", "estimated_number_of_employees": 1291}, "contact": null}, {"domain": "goodinside.com", "tier": "Tier 2", "score": 55, "reasons": ["🎯 Actively hiring HR/People roles", "✅ ICP size match"], "why_now": "Active hiring signals that Good Inside is building out its team now, making this the right moment to lock in competitive benefits and streamlined onboarding to win top candidates.", "company": {"name": "Good Inside", "industry": "Technology & Media", "estimated_number_of_employees": 105}, "contact": {"first_name": "Callie", "last_name": "Schweitzer", "title": "Head of Content", "email": ""}}, {"domain": "jump.ai", "tier": "Tier 2", "score": 50, "reasons": ["💰 Recently funded", "📈 Headcount growing"], "why_now": "New funding and growth momentum mean Jump.ai is entering a rapid hiring phase where a PEO can immediately reduce administrative burden and offer benefits that punch above their startup size.", "company": {"name": "Jump", "industry": "Software Development", "estimated_number_of_employees": 217}, "contact": null}, {"domain": "hoop.dev", "tier": "Tier 3", "score": 45, "reasons": ["💰 Recently funded", "✅ ICP size match"], "why_now": "With fresh funding in hand, Hoop.dev is about to scale its team and needs compliant payroll and benefits infrastructure in place before the first wave of new hires begins.", "company": {"name": "hoop.dev", "industry": "Data Security", "estimated_number_of_employees": 22}, "contact": null}, {"domain": "gather.ai", "tier": "Tier 3", "score": 45, "reasons": ["💰 Recently funded", "✅ ICP size match"], "why_now": "Post-funding, Gather.ai faces the classic startup inflection point where HR complexity spikes—Justworks can absorb that burden so the team stays focused on product and growth.", "company": {"name": "Gather AI", "industry": "Software Development", "estimated_number_of_employees": 92}, "contact": null}, {"domain": "flex.one", "tier": "Tier 3", "score": 45, "reasons": ["💰 Recently funded", "✅ ICP size match"], "why_now": "New capital means Flex.one will be competing for talent immediately, and offering Fortune 500-caliber benefits through Justworks can be a decisive edge in a tight hiring market.", "company": {"name": "Flex", "industry": "Financial Services", "estimated_number_of_employees": 174}, "contact": null}, {"domain": "qodo.ai", "tier": "Tier 3", "score": 35, "reasons": ["📈 Headcount growing", "✅ ICP size match"], "why_now": "Qodo.ai's growth trajectory signals rising headcount and increasing HR complexity, making today the right time to consolidate payroll, compliance, and benefits onto one scalable platform.", "company": {"name": "Qodo", "industry": "Software Development", "estimated_number_of_employees": 129}, "contact": null}, {"domain": "incident.io", "tier": "Tier 3", "score": 35, "reasons": ["📈 Headcount growing", "✅ ICP size match"], "why_now": "As incident.io continues to grow its team, the operational overhead of managing HR, benefits, and compliance across a larger workforce makes a PEO partnership immediately valuable.", "company": {"name": "incident.io", "industry": "Software Development", "estimated_number_of_employees": 197}, "contact": null}]};
+document.getElementById('meta').textContent='Updated '+D.generated+' · '+D.prospects.length+' companies';
+const main=document.getElementById('main');
+[['Tier 1','🔥 Tier 1 — Immediate Outreach','t1'],['Tier 2','⚡ Tier 2 — High Priority','t2'],['Tier 3','📋 Tier 3 — Watch List','t3']].forEach(([key,label,cls])=>{
+  const items=D.prospects.filter(p=>p.tier===key);
+  if(!items.length)return;
+  const sec=document.createElement('div');
+  sec.className='tier-section';
+  sec.innerHTML='<div class="tier-header">'+label+' <span class="count">('+items.length+')</span></div><div class="cards">'+items.map(p=>card(p,cls)).join('')+'</div>';
+  main.appendChild(sec);
+});
+function card(p,cls){
+  const co=p.company;
+  const name=co.name||p.domain;
+  const sub=[p.domain,co.industry,co.estimated_number_of_employees?(co.estimated_number_of_employees+' employees'):''].filter(Boolean).join(' · ');
+  const c=p.contact;
+  const contactHtml=c?('<b>'+(c.first_name+' '+c.last_name).trim()+'</b>'+(c.title?', '+c.title:'')+(c.email?' &middot; <a href="mailto:'+c.email+'">'+c.email+'</a>':'')):('<span class="empty">[TBD]</span>');
+  return '<div class="card '+cls+'"><div class="card-top"><div><div class="co-name">'+name+'</div><div class="co-sub">'+sub+'</div></div><div class="badge">'+p.score+'</div></div><div class="signals">'+p.reasons.map(r=>'<span class="sig">'+r+'</span>').join('')+'</div>'+(p.why_now?'<div class="why">'+p.why_now+'</div>':'')+'<div class="contact">'+contactHtml+'</div></div>';
+}
+</script>
+</body>
+</html>

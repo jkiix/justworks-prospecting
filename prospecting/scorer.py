@@ -26,13 +26,15 @@ def score_lead(api_key: str, lead: dict) -> dict:
     )
 
     response = client.messages.create(
-        model="claude-sonnet-4-20250514",
+        model="claude-sonnet-4-6",
         max_tokens=256,
         system=SYSTEM_PROMPT,
         messages=[{"role": "user", "content": user_msg}],
     )
 
     text = response.content[0].text.strip()
+    if text.startswith("```"):
+        text = text.split("\n", 1)[1].rsplit("```", 1)[0].strip()
     return json.loads(text)
 
 
@@ -79,7 +81,7 @@ def generate_why_now(api_key: str, companies_with_signals: list[dict[str, Any]])
     ]
 
     response = client.messages.create(
-        model="claude-sonnet-4-20250514",
+        model="claude-sonnet-4-6",
         max_tokens=2048,
         system=(
             "You are a Justworks sales intelligence assistant. Justworks is a PEO "
@@ -98,5 +100,9 @@ def generate_why_now(api_key: str, companies_with_signals: list[dict[str, Any]])
         }],
     )
 
-    items = json.loads(response.content[0].text.strip())
+    text = response.content[0].text.strip()
+    # Strip markdown code fences if present
+    if text.startswith("```"):
+        text = text.split("\n", 1)[1].rsplit("```", 1)[0].strip()
+    items = json.loads(text)
     return {item["domain"]: item["why_now"] for item in items}
